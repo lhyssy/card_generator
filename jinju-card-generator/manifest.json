@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "金句卡片生成器",
+  "version": "1.0",
+  "description": "生成精美的金句卡片",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage",
+    "windows",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": "src/assets/icon.png"
+  },
+  "icons": {
+    "48": "src/assets/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["src/assets/styles/content.css"],
+      "js": ["src/content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/assets/styles/*.css", "src/assets/icon.png", "src/lib/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+} 

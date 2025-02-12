@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>金句卡片生成器</title>
+  <link rel="stylesheet" href="../assets/styles/card.css">
+  <link rel="stylesheet" href="popup.css">
+  <script src="../lib/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>金句卡片生成器</h1>
+    
+    <div class="card-container">
+      <div id="card-preview" class="card">
+        <p id="preview-text">加载中...</p>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="section">
+        <h2>主题风格</h2>
+        <div id="template-selector">
+          <button data-template="simple" class="active">简约</button>
+          <button data-template="vintage">复古</button>
+          <button data-template="modern">现代</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>背景设置</h2>
+        <div class="background-selector">
+          <div class="background-group">
+            <h3>纯色背景</h3>
+            <div class="background-options solid-colors">
+              <div class="background-option" data-background="#F8F9FA" style="background-color: #F8F9FA;">
+                <span>淡雅白</span>
+              </div>
+              <div class="background-option" data-background="#E9ECEF" style="background-color: #E9ECEF;">
+                <span>柔和灰</span>
+              </div>
+              <div class="background-option" data-background="#F8F0E5" style="background-color: #F8F0E5;">
+                <span>温暖米</span>
+              </div>
+              <div class="background-option" data-background="#EDF2FB" style="background-color: #EDF2FB;">
+                <span>清新蓝</span>
+              </div>
+              <div class="background-option" data-background="#F1F7ED" style="background-color: #F1F7ED;">
+                <span>自然绿</span>
+              </div>
+              <div class="background-option" data-background="#FDF2F8" style="background-color: #FDF2F8;">
+                <span>浪漫粉</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="background-group">
+            <h3>渐变背景</h3>
+            <div class="background-options gradient-colors">
+              <div class="background-option" 
+                   data-background="linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)"
+                   style="background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%)">
+                <span>晨雾</span>
+              </div>
+              <div class="background-option" 
+                   data-background="linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)"
+                   style="background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)">
+                <span>薄云</span>
+              </div>
+              <div class="background-option" 
+                   data-background="linear-gradient(120deg, #f6d365 0%, #fda085 100%)"
+                   style="background: linear-gradient(120deg, #f6d365 0%, #fda085 100%)">
+                <span>暖阳</span>
+              </div>
+              <div class="background-option" 
+                   data-background="linear-gradient(to top, #dfe9f3 0%, white 100%)"
+                   style="background: linear-gradient(to top, #dfe9f3 0%, white 100%)">
+                <span>清晨</span>
+              </div>
+              <div class="background-option" 
+                   data-background="linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)"
+                   style="background: linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)">
+                <span>天空</span>
+              </div>
+              <div class="background-option" 
+                   data-background="linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)"
+                   style="background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%)">
+                <span>云雾</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>字体设置</h2>
+        <div class="font-controls">
+          <select id="font-family">
+            <option value="'Microsoft YaHei'">微软雅黑</option>
+            <option value="'SimSun'">宋体</option>
+            <option value="'KaiTi'">楷体</option>
+            <option value="'SimHei'">黑体</option>
+            <option value="'FangSong'">仿宋</option>
+            <option value="'Arial'">Arial</option>
+          </select>
+          <select id="text-align">
+            <option value="left">左对齐</option>
+            <option value="center">居中对齐</option>
+            <option value="right">右对齐</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>导出设置</h2>
+        <div class="export-controls">
+          <select id="export-format">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPG</option>
+            <option value="webp">WEBP</option>
+          </select>
+          <select id="export-quality">
+            <option value="1">最高质量</option>
+            <option value="0.8">高质量</option>
+            <option value="0.6">中等质量</option>
+          </select>
+          <button id="export-btn">导出卡片</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
