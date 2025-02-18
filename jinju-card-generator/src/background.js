@@ -10,19 +10,10 @@ chrome.runtime.onInstalled.addListener(() => {
 // 监听来自content script的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'openPopup') {
-    // 先关闭已存在的弹窗
-    chrome.windows.getAll({populate: true}, (windows) => {
-      windows.forEach(window => {
-        if (window.type === 'popup') {
-          chrome.windows.remove(window.id);
-        }
-      });
-
+    try {
       // 计算新窗口的位置
       const width = 450;
       const height = 650;
-      
-      // 使用屏幕中心位置
       const left = Math.round((screen.availWidth - width) / 2);
       const top = Math.round((screen.availHeight - height) / 2);
 
@@ -35,12 +26,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         left: left,
         top: top,
         focused: true
-      }, (window) => {
-        if (chrome.runtime.lastError) {
-          console.error('创建弹窗失败:', chrome.runtime.lastError);
-        }
       });
-    });
+    } catch (error) {
+      console.error('创建弹窗失败:', error);
+    }
     return true;
   }
 });

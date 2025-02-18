@@ -8,13 +8,11 @@
     "activeTab",
     "scripting",
     "storage",
-    "windows"
+    "windows",
+    "tabs"
   ],
   "host_permissions": [
     "<all_urls>"
-  ],
-  "optional_permissions": [
-    "tabs"
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"

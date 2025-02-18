@@ -23,12 +23,6 @@ document.addEventListener('mouseup', (e) => {
   }
 
   if (selectedText) {
-    // 保存选中的文本
-    chrome.storage.local.set({ 
-      selectedText,
-      hasLineBreaks: selectedText.includes('\n')
-    });
-
     // 创建并显示浮动图标
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
@@ -58,6 +52,7 @@ document.addEventListener('mouseup', (e) => {
         setTimeout(() => icon.remove(), 300);
       } catch (error) {
         console.error('处理点击事件失败:', error);
+        alert('操作失败，请重试');
       }
     });
 
