@@ -38,27 +38,27 @@ document.addEventListener('mouseup', (e) => {
     );
 
     // 点击图标打开弹窗
-    icon.addEventListener('click', () => {
-      // 保存选中的文本到storage
-      chrome.storage.local.set({ 
-        selectedText,
-        hasLineBreaks: selectedText.includes('\n'),
-        timestamp: new Date().getTime()
-      }, () => {
+    icon.addEventListener('click', async () => {
+      try {
+        // 保存选中的文本到storage
+        await chrome.storage.local.set({ 
+          selectedText,
+          hasLineBreaks: selectedText.includes('\n'),
+          timestamp: new Date().getTime()
+        });
+
         // 发送消息打开弹窗
-        chrome.runtime.sendMessage({ 
+        await chrome.runtime.sendMessage({ 
           action: 'openPopup',
           source: 'floatingIcon'
-        }, (response) => {
-          if (chrome.runtime.lastError) {
-            console.error('发送消息失败:', chrome.runtime.lastError);
-          }
         });
-      });
-      
-      // 添加点击动画效果
-      icon.classList.add('clicked');
-      setTimeout(() => icon.remove(), 300);
+
+        // 添加点击动画效果
+        icon.classList.add('clicked');
+        setTimeout(() => icon.remove(), 300);
+      } catch (error) {
+        console.error('处理点击事件失败:', error);
+      }
     });
 
     document.body.appendChild(icon);

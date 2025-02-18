@@ -10,15 +10,21 @@ chrome.runtime.onInstalled.addListener(() => {
 // 监听来自content script的消息
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'openPopup') {
-    // 获取当前标签页的信息
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      const currentTab = tabs[0];
-      
-      // 计算弹窗位置
+    // 先关闭已存在的弹窗
+    chrome.windows.getAll({populate: true}, (windows) => {
+      windows.forEach(window => {
+        if (window.type === 'popup') {
+          chrome.windows.remove(window.id);
+        }
+      });
+
+      // 计算新窗口的位置
       const width = 450;
       const height = 650;
-      const left = Math.round((screen.width - width) / 2);
-      const top = Math.round((screen.height - height) / 2);
+      
+      // 使用屏幕中心位置
+      const left = Math.round((screen.availWidth - width) / 2);
+      const top = Math.round((screen.availHeight - height) / 2);
 
       // 创建新窗口
       chrome.windows.create({
@@ -29,12 +35,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         left: left,
         top: top,
         focused: true
-      }, (popupWindow) => {
-        // 存储弹窗ID，以便后续管理
-        chrome.storage.local.set({ popupWindowId: popupWindow.id });
+      }, (window) => {
+        if (chrome.runtime.lastError) {
+          console.error('创建弹窗失败:', chrome.runtime.lastError);
+        }
       });
     });
-    return true; // 保持消息通道开启
+    return true;
   }
 });
 

@@ -1,14 +1,30 @@
 // 初始化时获取选中的文本
-document.addEventListener('DOMContentLoaded', () => {
-  chrome.storage.local.get(['selectedText', 'hasLineBreaks'], (data) => {
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const data = await chrome.storage.local.get(['selectedText', 'hasLineBreaks']);
     const previewText = document.getElementById('preview-text');
+    
     if (data.selectedText) {
       previewText.textContent = data.selectedText;
       if (data.hasLineBreaks) {
         previewText.style.whiteSpace = 'pre-wrap';
       }
+    } else {
+      // 如果没有选中的文本，尝试从当前标签页获取
+      const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
+      if (tab) {
+        const [{result}] = await chrome.scripting.executeScript({
+          target: {tabId: tab.id},
+          function: () => window.getSelection().toString()
+        });
+        if (result) {
+          previewText.textContent = result;
+        }
+      }
     }
-  });
+  } catch (error) {
+    console.error('初始化失败:', error);
+  }
 });
 
 // 主题切换
